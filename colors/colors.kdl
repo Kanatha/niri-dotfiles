@@ -1,0 +1,45 @@
+// Reference copy of colors/colors.css for niri.
+//
+// niri's config.kdl has no @import / variable mechanism, so these values
+// can't be included automatically — they are pasted by hand into
+// ~/.config/niri/config.kdl wherever a color is needed. Keep this file
+// and colors.css in sync; if you change one, change both.
+//
+// Palette: Nord (https://www.nordtheme.com)
+
+// ---------- Raw Nord palette ----------
+// nord0  "#2e3440"
+// nord1  "#3b4252"
+// nord2  "#434c5e"
+// nord3  "#4c566a"
+// nord4  "#d8dee9"
+// nord5  "#e5e9f0"
+// nord6  "#eceff4"
+// nord7  "#8fbcbb"
+// nord8  "#88c0d0"
+// nord9  "#81a1c1"
+// nord10 "#5e81ac"
+// nord11 "#bf616a"  red
+// nord12 "#d08770"  orange
+// nord13 "#ebcb8b"  yellow
+// nord14 "#a3be8c"  green
+// nord15 "#b48ead"  purple
+
+// ---------- Semantic roles (mirrors colors.css) ----------
+// bg             "#2e3440"  nord0
+// bg-alt         "#3b4252"  nord1
+// bg-alt2        "#434c5e"  nord2
+// surface        "#4c566a"  nord3
+// fg             "#eceff4"  nord6
+// fg-dim         "#d8dee9"  nord4
+// fg-alt         "#e5e9f0"  nord5
+// accent         "#88c0d0"  nord8
+// accent-alt     "#81a1c1"  nord9
+// accent-strong  "#5e81ac"  nord10
+// red / urgent   "#bf616a"  nord11
+// orange         "#d08770"  nord12
+// yellow         "#ebcb8b"  nord13
+// green          "#a3be8c"  nord14
+// purple         "#b48ead"  nord15
+// border         "#4c566a"  = surface
+// border-active  "#88c0d0"  = accent

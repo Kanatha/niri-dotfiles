@@ -1,0 +1,55 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Nord palette, mirroring the semantic roles in ~/.config/colors/colors.css
+# (Starship can't import CSS, kept in sync by hand):
+#   bg #2e3440  bg-alt #3b4252  fg #eceff4  fg-dim #d8dee9
+#   accent #88c0d0  accent-alt #81a1c1  red #bf616a  orange #d08770
+#   yellow #ebcb8b  green #a3be8c  purple #b48ead
+#
+# Two self-contained "pill" segments (directory, git branch — powerline
+# style, matching the pill-module look already used in waybar), each with
+# its own opening/closing triangle so they cleanly disappear when not
+# applicable (e.g. no git pill outside a repo). Plain colored text for
+# secondary indicators (username/hostname, git status, command duration).
+# Clean second line for actually typing.
+
+format = """$username$hostname$directory$git_branch$git_status$cmd_duration
+$character"""
+
+add_newline = true
+
+[directory]
+style = "bg:#88c0d0 fg:#2e3440"
+format = "[](fg:#88c0d0)[ $path$read_only ]($style)[](fg:#88c0d0) "
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+style = "bg:#3b4252 fg:#b48ead"
+format = "[](fg:#3b4252)[ $symbol$branch ]($style)[](fg:#3b4252) "
+
+[git_status]
+style = "fg:#ebcb8b"
+format = "[$all_status$ahead_behind]($style) "
+
+[cmd_duration]
+style = "fg:#d08770"
+format = "[took $duration]($style) "
+min_time = 2000
+
+[character]
+format = "$symbol "
+success_symbol = "[❯](bold fg:#a3be8c)"
+error_symbol = "[❯](bold fg:#bf616a)"
+vicmd_symbol = "[❮](bold fg:#88c0d0)"
+
+[username]
+style_user = "fg:#eceff4"
+style_root = "bold fg:#bf616a"
+format = "[$user]($style)"
+show_always = false
+
+[hostname]
+style = "fg:#81a1c1"
+format = "[@$hostname ]($style)"
+ssh_only = true

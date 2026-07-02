@@ -1,0 +1,20 @@
+draw_config:
+  dark_mode: true
+  svg_extra_style: |
+    svg.keymap {
+      fill: #eceff4;
+    }
+    rect.key {
+      fill: #3b4252;
+    }
+    rect.key, rect.combo {
+      stroke: #4c566a;
+    }
+    text.label {
+      stroke: #2e3440;
+      fill: #88c0d0;
+      font-size: 16px;
+    }
+    text.footer {
+      stroke: #2e3440;
+    }

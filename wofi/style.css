@@ -1,0 +1,90 @@
+@import url("/home/luka/.config/colors/colors.css");
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 14px;
+}
+
+#window {
+    background-color: transparent;
+}
+
+#outer-box {
+    background-color: @bg;
+    border: 2px solid @border-active;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+#input {
+    background-color: @bg-alt;
+    color: @fg;
+    caret-color: @accent;
+    border: 1px solid @border;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+}
+
+#input:focus {
+    border: 1px solid @accent;
+}
+
+#input image {
+    color: @fg-dim;
+}
+
+#scroll {
+    background-color: transparent;
+}
+
+#inner-box {
+    background-color: transparent;
+}
+
+#entry {
+    padding: 6px 8px;
+    margin: 2px 0;
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+#entry:nth-child(even) {
+    background-color: alpha(@bg-alt, 0.4);
+}
+
+#entry:hover {
+    background-color: @bg-alt2;
+}
+
+#entry:selected {
+    background-color: @accent;
+    border-radius: 8px;
+}
+
+#entry:selected #text {
+    color: @bg;
+    font-weight: bold;
+}
+
+#text {
+    color: @fg;
+}
+
+#img {
+    margin-right: 10px;
+}
+
+#scroll scrollbar {
+    background-color: transparent;
+}
+
+#scroll scrollbar slider {
+    background-color: @border;
+    border-radius: 8px;
+    min-width: 6px;
+}
+
+#scroll scrollbar slider:hover {
+    background-color: @accent;
+}

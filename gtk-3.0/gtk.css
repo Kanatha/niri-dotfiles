@@ -1,0 +1,41 @@
+@import url("/home/luka/.config/colors/colors.css");
+
+/* Recolors Adwaita's semantic named colors with the Nord palette from
+ * colors.css. Nearly all of Adwaita's own CSS is built from these named
+ * colors, so redefining them here (loaded after the theme) recolors every
+ * standard GTK3 widget without overriding individual selectors.
+ *
+ * Replaces a KDE Plasma auto-generated Breeze color mapping that used to
+ * live here — no longer regenerated since niri, not Plasma, is now the
+ * primary session. */
+
+@define-color theme_bg_color @bg;
+@define-color theme_fg_color @fg;
+@define-color theme_base_color @bg-alt;
+@define-color theme_text_color @fg;
+@define-color theme_selected_bg_color @accent;
+@define-color theme_selected_fg_color @bg;
+
+@define-color theme_unfocused_bg_color @bg;
+@define-color theme_unfocused_fg_color @fg-dim;
+@define-color theme_unfocused_base_color @bg-alt;
+@define-color theme_unfocused_text_color @fg-dim;
+@define-color theme_unfocused_selected_bg_color @accent-strong;
+@define-color theme_unfocused_selected_fg_color @bg;
+
+@define-color insensitive_bg_color @bg-alt;
+@define-color insensitive_fg_color @surface;
+@define-color insensitive_base_color @bg-alt;
+
+@define-color borders @border;
+@define-color unfocused_borders @surface;
+
+@define-color theme_tooltip_bg_color @bg-alt;
+@define-color theme_tooltip_fg_color @fg;
+
+@define-color warning_color @yellow;
+@define-color error_color @red;
+@define-color success_color @green;
+@define-color destructive_color @red;
+
+@define-color content_view_bg @bg-alt;

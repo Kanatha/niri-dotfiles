@@ -1,0 +1,28 @@
+# Large app data / caches / profiles (not real dotfiles, often huge or sensitive)
+BraveSoftware/
+zen/
+Slack/
+JetBrains/
+intelephense/
+akonadi/
+
+# Telemetry / opt-in feedback stubs, not meaningful config
+KDE/
+kde.org/
+
+# Session & runtime state (machine/session specific, regenerated)
+session/
+dconf/
+konq_history
+kactivitymanagerd-statsrc
+
+# Secrets
+pulse/cookie
+kdeconnect/privateKey.pem
+
+# Claude Code project dir here is empty / local scratch
+.claude/
+
+# Python bytecode cache
+__pycache__/
+*.pyc

@@ -1,0 +1,71 @@
+/*
+ * Source of truth for all colors used across niri, wofi, waybar
+ * (and anything else GTK-CSS-based).
+ *
+ * Palette: Nord (https://www.nordtheme.com)
+ *
+ * This is GTK CSS, not browser CSS: GTK3/4 don't support `:root`/`var()`,
+ * they use `@define-color <name> <value>;` and `@<name>` to reference it.
+ * Import this file from waybar/wofi stylesheets with:
+ *   @import url("../colors/colors.css");
+ *
+ * niri's config.kdl cannot @import CSS or use variables, so its color
+ * values are kept in sync by hand — see colors/colors.kdl for the same
+ * semantic mapping in KDL-comment form.
+ */
+
+/* ---------- Raw Nord palette ---------- */
+
+/* Polar Night (dark backgrounds) */
+@define-color nord0 #2e3440;
+@define-color nord1 #3b4252;
+@define-color nord2 #434c5e;
+@define-color nord3 #4c566a;
+
+/* Snow Storm (light foregrounds) */
+@define-color nord4 #d8dee9;
+@define-color nord5 #e5e9f0;
+@define-color nord6 #eceff4;
+
+/* Frost (cool accents) */
+@define-color nord7 #8fbcbb;
+@define-color nord8 #88c0d0;
+@define-color nord9 #81a1c1;
+@define-color nord10 #5e81ac;
+
+/* Aurora (status colors) */
+@define-color nord11 #bf616a; /* red */
+@define-color nord12 #d08770; /* orange */
+@define-color nord13 #ebcb8b; /* yellow */
+@define-color nord14 #a3be8c; /* green */
+@define-color nord15 #b48ead; /* purple */
+
+/* ---------- Semantic roles ---------- */
+/* Reference these (not the raw nordN names) from waybar/wofi styles. */
+
+@define-color bg @nord0;          /* base background */
+@define-color bg-alt @nord1;      /* raised surface (bars, panels) */
+@define-color bg-alt2 @nord2;     /* hover / selected surface */
+@define-color surface @nord3;     /* inactive borders, dividers */
+
+@define-color fg @nord6;          /* primary text */
+@define-color fg-dim @nord4;      /* secondary / muted text */
+@define-color fg-alt @nord5;      /* tertiary text */
+
+@define-color accent @nord8;      /* primary accent (active/focused) */
+@define-color accent-alt @nord9;  /* secondary accent */
+@define-color accent-strong @nord10; /* pressed / strong emphasis */
+
+@define-color red @nord11;
+@define-color orange @nord12;
+@define-color yellow @nord13;
+@define-color green @nord14;
+@define-color purple @nord15;
+
+@define-color error @red;
+@define-color warning @orange;
+@define-color success @green;
+@define-color urgent @red;
+
+@define-color border @surface;
+@define-color border-active @accent;

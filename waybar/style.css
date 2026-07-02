@@ -1,0 +1,147 @@
+@import url("../colors/colors.css");
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+    border-bottom: 2px solid @border;
+}
+
+tooltip {
+    background-color: @bg-alt;
+    border: 1px solid @border-active;
+    border-radius: 6px;
+}
+
+tooltip label {
+    color: @fg;
+}
+
+#custom-monitor,
+#workspaces,
+#tray,
+#memory,
+#cpu,
+#language,
+#clock.date,
+#clock.time,
+#custom-power {
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: @bg-alt;
+    color: @fg;
+}
+
+#custom-monitor {
+    color: @accent-alt;
+    font-weight: bold;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 0 2px;
+    border-radius: 4px;
+    background-color: transparent;
+    color: @fg-dim;
+}
+
+#workspaces button.active {
+    background-color: @accent;
+    color: @bg;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    background-color: @urgent;
+    color: @fg;
+}
+
+#workspaces button:hover {
+    background-color: @bg-alt2;
+    color: @fg;
+}
+
+/* niri always keeps one trailing empty workspace to scroll into —
+   collapse it (and any other empty ones) so only occupied
+   workspaces show up in the bar. */
+#workspaces button.empty {
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-size: 0;
+    opacity: 0;
+}
+
+#tray > widget {
+    padding: 0 4px;
+}
+
+#tray > .passive {
+    opacity: 0.6;
+}
+
+#tray > .needs-attention {
+    background-color: @urgent;
+    border-radius: 4px;
+}
+
+#memory {
+    color: @green;
+}
+
+#cpu {
+    color: @yellow;
+}
+
+#language {
+    color: @purple;
+}
+
+#language:hover {
+    background-color: @bg-alt2;
+}
+
+#custom-power {
+    color: @red;
+    font-weight: bold;
+}
+
+#custom-power:hover {
+    background-color: @urgent;
+    color: @fg;
+}
+
+menu {
+    background-color: @bg-alt;
+    border: 1px solid @border-active;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+menuitem {
+    color: @fg;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+menuitem:hover {
+    background-color: @accent;
+    color: @bg;
+}
+
+#clock.date {
+    color: @fg-dim;
+}
+
+#clock.time {
+    color: @accent;
+    font-weight: bold;
+}

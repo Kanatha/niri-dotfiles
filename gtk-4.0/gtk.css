@@ -1,0 +1,53 @@
+@import url("/home/luka/.config/colors/colors.css");
+
+/* Recolors GTK4/libadwaita's semantic named colors with the Nord palette
+ * from colors.css. Covers both the newer libadwaita names and the classic
+ * GTK3-style names some plain-GTK4 apps still use.
+ *
+ * Replaces a KDE Plasma auto-generated Breeze color mapping that used to
+ * live here — no longer regenerated since niri, not Plasma, is now the
+ * primary session. */
+
+/* libadwaita */
+@define-color window_bg_color @bg;
+@define-color window_fg_color @fg;
+@define-color view_bg_color @bg-alt;
+@define-color view_fg_color @fg;
+@define-color headerbar_bg_color @bg-alt;
+@define-color headerbar_fg_color @fg;
+@define-color headerbar_border_color @border;
+@define-color headerbar_backdrop_color @bg;
+@define-color headerbar_shade_color @border;
+@define-color card_bg_color @bg-alt;
+@define-color card_fg_color @fg;
+@define-color dialog_bg_color @bg-alt;
+@define-color dialog_fg_color @fg;
+@define-color popover_bg_color @bg-alt;
+@define-color popover_fg_color @fg;
+@define-color shade_color @border;
+@define-color scrollbar_outline_color @bg;
+@define-color border_color @border;
+
+@define-color accent_color @accent;
+@define-color accent_bg_color @accent;
+@define-color accent_fg_color @bg;
+@define-color destructive_color @red;
+@define-color destructive_bg_color @red;
+@define-color destructive_fg_color @bg;
+@define-color success_color @green;
+@define-color success_bg_color @green;
+@define-color success_fg_color @bg;
+@define-color warning_color @yellow;
+@define-color warning_bg_color @yellow;
+@define-color warning_fg_color @bg;
+@define-color error_color @red;
+@define-color error_bg_color @red;
+@define-color error_fg_color @bg;
+
+/* classic GTK3-style names, still used by plain-GTK4 apps without libadwaita */
+@define-color theme_bg_color @bg;
+@define-color theme_fg_color @fg;
+@define-color theme_base_color @bg-alt;
+@define-color theme_text_color @fg;
+@define-color theme_selected_bg_color @accent;
+@define-color theme_selected_fg_color @bg;

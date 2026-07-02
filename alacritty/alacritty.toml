@@ -1,0 +1,52 @@
+# Colors: Nord palette, mirroring the semantic roles in
+# ~/.config/colors/colors.css (alacritty can't read CSS, so this is the
+# canonical Nord terminal mapping — keep in sync by hand if the palette
+# ever changes).
+
+[window]
+decorations = "None"
+padding = { x = 10, y = 10 }
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
+size = 11
+
+[colors.primary]
+background = "#2e3440" # bg
+foreground = "#eceff4" # fg
+
+[colors.cursor]
+text = "#2e3440"
+cursor = "#eceff4"
+
+[colors.selection]
+text = "#2e3440"
+background = "#eceff4"
+
+[colors.normal]
+black =   "#3b4252" # bg-alt
+red =     "#bf616a"
+green =   "#a3be8c"
+yellow =  "#ebcb8b"
+blue =    "#81a1c1" # accent-alt
+magenta = "#b48ead"
+cyan =    "#88c0d0" # accent
+white =   "#e5e9f0" # fg-alt
+
+[colors.bright]
+black =   "#4c566a" # surface
+red =     "#bf616a"
+green =   "#a3be8c"
+yellow =  "#ebcb8b"
+blue =    "#81a1c1"
+magenta = "#b48ead"
+cyan =    "#8fbcbb"
+white =   "#eceff4" # fg
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
