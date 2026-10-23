@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Volume / mic / brightness keys: change the value, then show it as a mako
+# notification with a progress bar (styled by the [app-name=osd] section in
+# mako/config). Each new pop-up replaces the previous one instead of stacking.
+#
+# Usage: osd volume up|down|mute   osd mic mute   osd brightness up|down
+set -euo pipefail
+
+id_file="${XDG_RUNTIME_DIR:-/tmp}/osd-notification-id"
+
+show() { # <icon> <text> <percent>
+    local args=(-a osd -e -t 1500 -h "int:value:$3" -p)
+    [ -s "$id_file" ] && args+=(-r "$(cat "$id_file")")
+    notify-send "${args[@]}" "$1  $2" > "$id_file"
+}
+
+volume_of() { # <wpctl target> -> "<percent> <muted:0|1>"
+    wpctl get-volume "$1" | awk '{ printf "%d %d\n", $2 * 100 + 0.5, /MUTED/ }'
+}
+
+case "${1:-} ${2:-}" in
+    "volume up")   wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ ;;
+    "volume down") wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- ;;
+    "volume mute") wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
+    "mic mute")    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle ;;
+    "brightness up")   brightnessctl --class=backlight -q set 5%+ ;;
+    "brightness down") brightnessctl --class=backlight -q set 5%- ;;
+    *) echo "usage: osd volume up|down|mute | mic mute | brightness up|down" >&2; exit 1 ;;
+esac
+
+case "$1" in
+    volume)
+        read -r pct muted < <(volume_of @DEFAULT_AUDIO_SINK@)
+        if [ "$muted" = 1 ]; then show "󰝟" "Muted" 0
+        elif [ "$pct" -lt 34 ]; then show "󰕿" "$pct%" "$pct"
+        elif [ "$pct" -lt 67 ]; then show "󰖀" "$pct%" "$pct"
+        else show "󰕾" "$pct%" "$pct"; fi
+        ;;
+    mic)
+        read -r pct muted < <(volume_of @DEFAULT_AUDIO_SOURCE@)
+        if [ "$muted" = 1 ]; then show "󰍭" "Mic muted" 0
+        else show "󰍬" "Mic $pct%" "$pct"; fi
+        ;;
+    brightness)
+        pct=$(brightnessctl --class=backlight -m | cut -d, -f4 | tr -d %)
+        show "󰃟" "$pct%" "$pct"
+        ;;
+esac

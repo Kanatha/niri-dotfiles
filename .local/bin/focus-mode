@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Focus mode: do-not-disturb for a fixed time (a pomodoro), shown as a
+# countdown in the waybar pill and toggled from the control center.
+#   focus-mode start [minutes]   default 25
+#   focus-mode stop | toggle | status   (status: "<minutes left>" or "off")
+set -euo pipefail
+
+state="${XDG_RUNTIME_DIR:-/tmp}/focus-mode-end"
+unit="focus-mode-end"
+# Must match the "signal" set on custom/control in waybar/config.jsonc.
+waybar_signal="RTMIN+9"
+
+stop() {
+    systemctl --user stop "$unit.timer" 2>/dev/null || true
+    rm -f "$state"
+    makoctl mode -r do-not-disturb >/dev/null
+}
+
+case "${1:-status}" in
+    start)
+        minutes="${2:-25}"
+        stop
+        echo $(( $(date +%s) + minutes * 60 )) > "$state"
+        makoctl mode -a do-not-disturb >/dev/null
+        # A transient systemd timer ends it even if nothing else is running.
+        systemd-run --user --quiet --unit="$unit" --on-active="${minutes}m" \
+            "$HOME/.local/bin/focus-mode" finish
+        ;;
+    finish)
+        stop
+        notify-send -a "Focus mode" -i appointment-soon "󰀠  Focus session done" "Take a break."
+        ;;
+    stop)
+        stop
+        ;;
+    toggle)
+        if [ -s "$state" ]; then "$0" stop; else "$0" start; fi
+        exit
+        ;;
+    status)
+        if [ -s "$state" ]; then
+            left=$(( ($(cat "$state") - $(date +%s) + 59) / 60 ))
+            echo $(( left < 0 ? 0 : left ))
+        else
+            echo off
+        fi
+        exit
+        ;;
+    *)
+        echo "usage: focus-mode start [minutes] | stop | toggle | status" >&2
+        exit 1
+        ;;
+esac
+pkill -"$waybar_signal" waybar 2>/dev/null || true

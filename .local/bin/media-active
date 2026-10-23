@@ -1,0 +1,10 @@
+#!/bin/sh
+# Exit 0 if something that should keep the screen awake is active:
+#  - any MPRIS player is playing (YouTube in Brave, VLC, Spotify, ...)
+#  - Discord is in a voice call (it holds a WebRTC mic stream open)
+#  - caffeine is on (~/.local/bin/caffeine)
+[ -e "${XDG_RUNTIME_DIR:-/tmp}/caffeine" ] && exit 0
+playerctl -a status 2>/dev/null | grep -qx Playing && exit 0
+pactl -f json list source-outputs 2>/dev/null \
+  | jq -e 'any(.[]; .properties["application.process.binary"] == "Discord")' >/dev/null && exit 0
+exit 1

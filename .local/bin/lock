@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Lock screen: swaylock over a blurred screenshot of each output. Used by
+# swayidle (niri/config.kdl) and Mod+Alt+L; colors are in swaylock/config.
+# Extra arguments (e.g. -f from swayidle) are passed through to swaylock.
+set -euo pipefail
+
+pgrep -x swaylock >/dev/null && exit 0
+
+dir="${XDG_RUNTIME_DIR:-/tmp}/lock"
+mkdir -p "$dir"
+rm -f "$dir"/*.png
+
+images=()
+for out in $(niri msg --json outputs | jq -r 'keys[]'); do
+    # Capturing at 4% size and letting swaylock scale it back up blurs it.
+    if grim -s 0.04 -o "$out" "$dir/$out.png" 2>/dev/null; then
+        images+=(-i "$out:$dir/$out.png")
+    fi
+done
+
+exec swaylock "$@" "${images[@]}"

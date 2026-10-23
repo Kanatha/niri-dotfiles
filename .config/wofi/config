@@ -1,0 +1,23 @@
+width=32%
+height=40%
+location=center
+layer=overlay
+show=drun
+prompt=Search...
+
+allow_markup=true
+allow_images=true
+image_size=32
+
+matching=fuzzy
+insensitive=true
+hide_scroll=true
+dynamic_lines=true
+
+# Vim motions (replaces arrow keys, which wofi can only bind one key to per action)
+key_down=Ctrl-j
+key_up=Ctrl-k
+key_left=Ctrl-h
+key_right=Ctrl-l
+
+term=alacritty

@@ -1,0 +1,11 @@
+[Unit]
+Description=Restart waybar after resume from suspend
+PartOf=graphical-session.target
+After=graphical-session.target waybar.service
+
+[Service]
+ExecStart=%h/.config/waybar/scripts/restart-on-resume.sh
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,7 @@
+[Unit]
+Description=Refresh Google Calendar cache for waybar (gcalcli)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/waybar/scripts/gcal-refresh.sh

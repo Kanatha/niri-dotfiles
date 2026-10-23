@@ -1,0 +1,36 @@
+# Nord, matching ~/.config/colors/colors.css. Started through
+# ~/.local/bin/lock, which adds a blurred screenshot per output as the
+# background (color= is the fallback when that fails).
+color=242933
+scaling=fill
+font=JetBrainsMono Nerd Font
+font-size=22
+indicator-radius=110
+indicator-thickness=8
+indicator-idle-visible
+show-failed-attempts
+ignore-empty-password
+
+inside-color=2e3440cc
+ring-color=4c566a
+key-hl-color=88c0d0
+bs-hl-color=d08770
+separator-color=00000000
+line-color=00000000
+text-color=eceff4
+
+inside-clear-color=2e3440cc
+ring-clear-color=ebcb8b
+text-clear-color=ebcb8b
+
+inside-ver-color=3b4252cc
+ring-ver-color=81a1c1
+text-ver-color=81a1c1
+
+inside-wrong-color=2e3440cc
+ring-wrong-color=bf616a
+text-wrong-color=bf616a
+
+text-caps-lock-color=ebcb8b
+ring-caps-lock-color=4c566a
+caps-lock-key-hl-color=ebcb8b

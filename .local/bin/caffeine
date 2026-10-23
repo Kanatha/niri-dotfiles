@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Caffeine: keep the screen from locking or turning off while on. swayidle's
+# timeouts run ~/.local/bin/media-active first, which checks this flag.
+#   caffeine on | off | toggle | status   (status: "on" or "off")
+set -euo pipefail
+
+flag="${XDG_RUNTIME_DIR:-/tmp}/caffeine"
+# Must match the "signal" set on custom/control in waybar/config.jsonc.
+waybar_signal="RTMIN+9"
+
+case "${1:-status}" in
+    on) touch "$flag" ;;
+    off) rm -f "$flag" ;;
+    toggle) if [ -e "$flag" ]; then rm -f "$flag"; else touch "$flag"; fi ;;
+    status) [ -e "$flag" ] && echo on || echo off; exit ;;
+    *) echo "usage: caffeine on|off|toggle|status" >&2; exit 1 ;;
+esac
+pkill -"$waybar_signal" waybar 2>/dev/null || true

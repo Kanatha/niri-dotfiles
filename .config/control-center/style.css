@@ -1,0 +1,250 @@
+@import url("../colors/colors.css");
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 13px;
+    text-shadow: none;
+    -gtk-icon-shadow: none;
+}
+
+window {
+    background-color: transparent;
+}
+
+.panel {
+    background-color: @bg;
+    color: @fg;
+    border: 2px solid @border;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+/* Reset the GTK theme's button look; the panel styles its own. */
+button {
+    background-image: none;
+    background-color: @bg-alt;
+    color: @fg;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    box-shadow: none;
+    outline: none;
+}
+
+button:hover {
+    background-color: @bg-alt2;
+}
+
+/* Keyboard cursor (vim navigation). */
+.selected,
+button.selected {
+    border-color: @accent;
+}
+
+/* ---------- Quick tiles ---------- */
+
+.tile {
+    padding: 8px 10px;
+}
+
+.tile-icon {
+    font-size: 20px;
+    color: @accent;
+}
+
+.tile-title {
+    font-weight: bold;
+}
+
+.tile-status {
+    font-size: 11px;
+    color: @fg-dim;
+}
+
+.tile.active {
+    background-color: @accent-strong;
+}
+
+.tile.active .tile-icon,
+.tile.active .tile-status {
+    color: @fg;
+}
+
+/* ---------- Sliders ---------- */
+
+.slider-row {
+    background-color: @bg-alt;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 4px 12px;
+}
+
+.slider-row.muted .slider-icon,
+.slider-row.muted .slider-value {
+    color: @surface;
+}
+
+.slider-row.muted highlight {
+    background-color: @surface;
+}
+
+.slider-icon {
+    font-size: 16px;
+    color: @accent;
+}
+
+.slider-value {
+    color: @fg-dim;
+}
+
+scale trough {
+    background-color: @bg-alt2;
+    border: none;
+    border-radius: 3px;
+    min-height: 6px;
+}
+
+scale highlight {
+    background-image: none;
+    background-color: @accent;
+    border: none;
+    border-radius: 3px;
+}
+
+scale slider {
+    background-image: none;
+    background-color: @fg;
+    border: none;
+    border-radius: 8px;
+    min-width: 14px;
+    min-height: 14px;
+    margin: -5px;
+    box-shadow: none;
+}
+
+/* ---------- Media ---------- */
+
+.media {
+    background-color: @bg-alt;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.media-title {
+    font-weight: bold;
+}
+
+.media-artist {
+    font-size: 11px;
+    color: @fg-dim;
+}
+
+.media-button {
+    background-color: @bg-alt2;
+    font-size: 16px;
+    padding: 2px 0;
+}
+
+/* ---------- Calendar ---------- */
+
+.event {
+    padding: 6px 10px;
+}
+
+.event-when {
+    font-size: 11px;
+    color: @accent;
+}
+
+/* ---------- Stats ---------- */
+
+.stats {
+    background-color: @bg-alt;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.stat-name {
+    color: @fg-dim;
+}
+
+.stat-value {
+    font-size: 12px;
+}
+
+progressbar trough {
+    background-color: @bg-alt2;
+    border: none;
+    border-radius: 3px;
+    min-height: 6px;
+}
+
+progressbar progress {
+    background-image: none;
+    background-color: @green;
+    border: none;
+    border-radius: 3px;
+    min-height: 6px;
+}
+
+progressbar.high progress {
+    background-color: @orange;
+}
+
+progressbar.critical progress {
+    background-color: @red;
+}
+
+/* ---------- Notifications ---------- */
+
+.section-title {
+    font-weight: bold;
+    color: @accent-alt;
+}
+
+.clear-all {
+    padding: 2px 10px;
+    color: @red;
+}
+
+.clear-all:disabled {
+    color: @surface;
+}
+
+.notif {
+    padding: 8px 10px;
+}
+
+.notif-app,
+.notif-time {
+    font-size: 11px;
+    color: @fg-dim;
+}
+
+.notif-summary {
+    font-weight: bold;
+}
+
+.notif-body {
+    color: @fg-alt;
+}
+
+.empty {
+    color: @surface;
+    padding: 10px;
+}
+
+.hint {
+    font-size: 11px;
+    color: @surface;
+}
+
+scrollbar {
+    background-color: transparent;
+    border: none;
+}
+
+scrollbar slider {
+    background-color: @surface;
+    border-radius: 4px;
+    min-width: 4px;
+}

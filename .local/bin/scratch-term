@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Floating scratchpad terminals, bound in niri/config.kdl:
+#   scratch-term                 Mod+T        plain shell
+#   scratch-term calc qalc       Mod+A        calculator
+#   scratch-term notes nvim ...  Mod+Shift+N  scratch note
+#   scratch-term top btop        Mod+Shift+T  system monitor
+# niri can't hide windows, so each one lives in its own tmux session:
+# closing the window only detaches it, and the next toggle reattaches.
+#   focused         -> close the window (session keeps running)
+#   open, unfocused -> bring it to the current workspace and focus it
+#   not open        -> spawn it (window-rule makes it float and focus)
+set -euo pipefail
+
+name="${1:-term}"
+[ $# -gt 0 ] && shift
+
+if [ "$name" = term ]; then
+    app_id="scratch-term"
+    session="scratch"
+else
+    app_id="scratch-$name"
+    session="scratch-$name"
+fi
+
+window=$(niri msg --json windows | jq -c --arg id "$app_id" 'first(.[] | select(.app_id == $id)) // empty')
+
+if [ -z "$window" ]; then
+    # With a command, the session runs it instead of a shell; exiting the
+    # command ends the session, so the next toggle starts it fresh.
+    setsid -f alacritty --class "$app_id" -e tmux new-session -A -s "$session" "$@" >/dev/null 2>&1
+    exit 0
+fi
+
+id=$(jq -r '.id' <<< "$window")
+if [ "$(jq -r '.is_focused' <<< "$window")" = true ]; then
+    niri msg action close-window --id "$id"
+else
+    workspace=$(niri msg --json workspaces | jq -r 'first(.[] | select(.is_focused)) | .idx')
+    niri msg action move-window-to-workspace --window-id "$id" --focus false "$workspace"
+    niri msg action focus-window --id "$id"
+fi

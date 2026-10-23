@@ -1,0 +1,21 @@
+# Shared by the menu scripts in ~/.local/bin and wofi/scripts that list
+# plain text entries (screenshot, Wi-Fi, Bluetooth, emoji, windows, tmux,
+# SSH, projects).
+width=36%
+height=40%
+location=center
+layer=overlay
+
+allow_markup=false
+allow_images=false
+
+matching=fuzzy
+insensitive=true
+hide_scroll=true
+dynamic_lines=true
+
+# Vim motions (replaces arrow keys, which wofi can only bind one key to per action)
+key_down=Ctrl-j
+key_up=Ctrl-k
+key_left=Ctrl-h
+key_right=Ctrl-l

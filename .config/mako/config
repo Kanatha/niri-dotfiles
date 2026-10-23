@@ -1,0 +1,60 @@
+# mako config
+#
+# mako has no CSS @import, so these are the Nord values from
+# ../colors/colors.css pasted by hand. Keep in sync with that file
+# (see ../colors/colors.kdl for the semantic mapping reference).
+
+font=JetBrainsMono Nerd Font 11
+
+background-color=#2e3440e6
+text-color=#eceff4
+border-color=#4c566a
+border-size=2
+border-radius=6
+
+padding=10
+margin=8
+width=360
+height=120
+
+default-timeout=6000
+ignore-timeout=false
+
+icons=1
+max-icon-size=48
+
+anchor=top-right
+sort=-time
+layer=overlay
+
+[urgency=low]
+border-color=#4c566a
+
+[urgency=normal]
+border-color=#88c0d0
+
+[urgency=high]
+border-color=#bf616a
+background-color=#2e3440f2
+default-timeout=0
+
+[mode=do-not-disturb]
+invisible=1
+
+# Volume / brightness pop-up from ~/.local/bin/osd: a compact bar at the
+# bottom center. Kept visible in do-not-disturb (see the section below).
+[app-name=osd]
+anchor=bottom-center
+width=280
+height=60
+outer-margin=0,0,40,0
+default-timeout=1500
+border-color=#5e81ac
+progress-color=over #5e81ac
+text-alignment=center
+format=<b>%s</b>
+icons=0
+history=0
+
+[app-name=osd mode=do-not-disturb]
+invisible=0

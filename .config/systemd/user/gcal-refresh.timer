@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh Google Calendar cache for waybar every 5 minutes
+
+[Timer]
+OnStartupSec=20s
+# Wall-clock schedule (not OnUnitActiveSec): elapsed realtime timers fire
+# right after resume from suspend, so the bar catches up quickly.
+OnCalendar=*:0/5
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# Night light (wlsunset, warm from sunset to sunrise) with a persistent
+# on/off switch and night temperature. Used by niri's spawn-at-startup
+# and the control center panel (~/.config/control-center).
+#
+# Usage: nightlight start|on|off|toggle|status|temp <kelvin>
+#   start   launch wlsunset if night light is enabled (login)
+#   status  prints "<on|off> <kelvin>"
+set -euo pipefail
+
+# Ljubljana; adjust if you move.
+lat=46.05
+lon=14.51
+day_temp=6500
+min_temp=2500
+max_temp=6000
+
+# Must match the "signal" set on custom/control in waybar/config.jsonc.
+waybar_signal="RTMIN+9"
+
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/nightlight"
+mkdir -p "$state_dir"
+enabled=$(cat "$state_dir/enabled" 2>/dev/null || echo on)
+temp=$(cat "$state_dir/temp" 2>/dev/null || echo 4000)
+
+stop() {
+    pkill -x wlsunset || true
+    # The old instance must release gamma control before a new one can take it.
+    for _ in $(seq 40); do
+        pgrep -x wlsunset >/dev/null || return 0
+        sleep 0.05
+    done
+}
+
+launch() {
+    stop
+    setsid -f wlsunset -l "$lat" -L "$lon" -t "$temp" -T "$day_temp" >/dev/null 2>&1
+}
+
+set_enabled() {
+    echo "$1" > "$state_dir/enabled"
+    if [ "$1" = on ]; then launch; else stop; fi
+    pkill -"$waybar_signal" waybar 2>/dev/null || true
+}
+
+case "${1:-status}" in
+    start)
+        if [ "$enabled" = on ]; then launch; fi
+        ;;
+    on | off)
+        set_enabled "$1"
+        ;;
+    toggle)
+        if [ "$enabled" = on ]; then set_enabled off; else set_enabled on; fi
+        ;;
+    temp)
+        temp=${2:?usage: nightlight temp <kelvin>}
+        temp=$(( temp < min_temp ? min_temp : temp > max_temp ? max_temp : temp ))
+        echo "$temp" > "$state_dir/temp"
+        if [ "$enabled" = on ]; then launch; fi
+        ;;
+    status)
+        echo "$enabled $temp"
+        ;;
+    *)
+        echo "usage: nightlight start|on|off|toggle|status|temp <kelvin>" >&2
+        exit 1
+        ;;
+esac

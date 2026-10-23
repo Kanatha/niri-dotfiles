@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Background watcher started by niri (spawn-at-startup): warns once per
+# discharge at 20%, 10% and 5% battery, says when the charger is plugged in
+# or out, and warns when the CPU runs hotter than 90°C.
+set -uo pipefail
+
+bat=/sys/class/power_supply/BAT1
+ac=/sys/class/power_supply/ACAD
+cpu_zone=$(grep -lx x86_pkg_temp /sys/class/thermal/thermal_zone*/type 2>/dev/null | head -1)
+cpu_temp="${cpu_zone%/type}/temp"
+
+warned=100       # lowest threshold already warned about this discharge
+last_ac=$(cat "$ac/online")
+hot_since=0
+
+while sleep 30; do
+    capacity=$(cat "$bat/capacity")
+    online=$(cat "$ac/online")
+
+    if [ "$online" != "$last_ac" ]; then
+        if [ "$online" = 1 ]; then
+            notify-send -a Power -i battery-good-charging "󰂄  Charger connected" "Battery at $capacity%"
+        else
+            notify-send -a Power -i battery "󰁹  On battery" "Battery at $capacity%"
+        fi
+        last_ac=$online
+    fi
+
+    if [ "$online" = 1 ]; then
+        warned=100
+    else
+        for level in 5 10 20; do
+            if [ "$capacity" -le "$level" ] && [ "$warned" -gt "$level" ]; then
+                urgency=normal
+                [ "$level" -le 10 ] && urgency=critical
+                notify-send -a Power -u "$urgency" -i battery-caution "󰂃  Battery low: $capacity%" "Plug in the charger soon."
+                warned=$level
+                break
+            fi
+        done
+    fi
+
+    # Warn after a full minute above 90°C, then at most every 10 minutes.
+    if [ -r "$cpu_temp" ]; then
+        temp=$(( $(cat "$cpu_temp") / 1000 ))
+        now=$(date +%s)
+        if [ "$temp" -ge 90 ]; then
+            [ "$hot_since" = 0 ] && hot_since=$now
+            if [ $(( now - hot_since )) -ge 60 ]; then
+                notify-send -a Power -u critical "󰸁  CPU at ${temp}°C" "Something is working the CPU hard."
+                hot_since=$(( now + 540 ))
+            fi
+        else
+            hot_since=0
+        fi
+    fi
+done

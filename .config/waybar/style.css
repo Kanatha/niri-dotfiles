@@ -1,0 +1,217 @@
+@import url("../colors/colors.css");
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+    border-bottom: 2px solid @border;
+}
+
+tooltip {
+    background-color: @bg-alt;
+    border: 1px solid @border-active;
+    border-radius: 6px;
+}
+
+tooltip label {
+    color: @fg;
+}
+
+#custom-monitor,
+#custom-control,
+#workspaces,
+#tray,
+#pulseaudio,
+#battery,
+#custom-calendar,
+#clock.date,
+#clock.time,
+#custom-power {
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: @bg-alt;
+    color: @fg;
+}
+
+#custom-monitor {
+    color: @accent-alt;
+    font-weight: bold;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 0 2px;
+    border-radius: 4px;
+    background-color: transparent;
+    color: @fg-dim;
+}
+
+#workspaces button.active {
+    background-color: @accent;
+    color: @bg;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    background-color: @urgent;
+    color: @fg;
+}
+
+#workspaces button:hover {
+    background-color: @bg-alt2;
+    color: @fg;
+}
+
+/* niri always keeps one trailing empty workspace to scroll into —
+   collapse it (and any other empty ones) so only occupied
+   workspaces show up in the bar. */
+#workspaces button.empty {
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-size: 0;
+    opacity: 0;
+}
+
+#custom-control {
+    padding: 0 16px;
+    color: @fg-dim;
+}
+
+#custom-control:hover {
+    background-color: @bg-alt2;
+}
+
+#custom-control.has-notifications {
+    color: @accent;
+    font-weight: bold;
+}
+
+#custom-control.dnd {
+    color: @orange;
+}
+
+#custom-control.focus {
+    color: @yellow;
+}
+
+#tray > widget {
+    padding: 0 4px;
+}
+
+#tray > .passive {
+    opacity: 0.6;
+}
+
+#tray > .needs-attention {
+    background-color: @urgent;
+    border-radius: 4px;
+}
+
+#pulseaudio {
+    color: @accent;
+}
+
+#pulseaudio.muted {
+    color: @fg-dim;
+}
+
+#pulseaudio:hover {
+    background-color: @bg-alt2;
+}
+
+#battery {
+    color: @fg;
+}
+
+#battery.charging {
+    color: @green;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+}
+
+#custom-power {
+    color: @red;
+    font-weight: bold;
+}
+
+#custom-power:hover {
+    background-color: @urgent;
+    color: @fg;
+}
+
+menu {
+    background-color: @bg-alt;
+    border: 1px solid @border-active;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+menuitem {
+    color: @fg;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+menuitem:hover {
+    background-color: @accent;
+    color: @bg;
+}
+
+#custom-calendar {
+    color: @accent;
+}
+
+#custom-calendar.empty,
+#custom-calendar.stale,
+#custom-calendar.error {
+    color: @fg-dim;
+}
+
+#custom-calendar.stale,
+#custom-calendar.error {
+    opacity: 0.6;
+}
+
+/* Google login expired: clicking the module opens the login page. */
+#custom-calendar.auth {
+    color: @orange;
+    opacity: 1;
+}
+
+#custom-calendar.soon {
+    background-color: @urgent;
+    color: @fg;
+    font-weight: bold;
+}
+
+#custom-calendar:hover {
+    background-color: @bg-alt2;
+}
+
+#custom-calendar.soon:hover {
+    background-color: @urgent;
+}
+
+#clock.date {
+    color: @fg-dim;
+}
+
+#clock.time {
+    color: @accent;
+    font-weight: bold;
+}
