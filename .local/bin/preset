@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+# Session presets: open a set of apps, each on its own workspace, e.g.
+# "work" (mail, a tmux session, the work browser profile) or "home".
+#
+# Presets live in ~/.config/presets/<name>.preset: small bash files that
+# call the helpers below, one line per app. Workspaces are niri names or
+# indexes ("web", "code", "chat", 4, ...), or "-" for the current one.
+#
+#   open  <workspace> <command...>          any GUI app
+#   term  <workspace> [command...]          terminal, optionally running a command
+#   tmux  <workspace> <session>             terminal attached to a tmux session
+#   brave <workspace> <profile> [url...]    Brave window for a profile, with tabs
+#   focus <workspace>                       switch to a workspace when done
+#
+# Usage:
+#   preset           pick a preset with wofi (Mod+Shift+W)
+#   preset <name>    open that preset
+#   preset --login   at login (niri spawn-at-startup): does what
+#                    ~/.config/presets/autostart says: "ask", a preset name,
+#                    or "none"
+set -euo pipefail
+
+dir="$HOME/.config/presets"
+brave_state="$HOME/.config/BraveSoftware/Brave-Browser/Local State"
+
+window_ids() {
+    niri msg --json windows | jq -r '.[].id' | sort
+}
+
+# Run a command and move the window it opens to a workspace. Waits up to
+# 20 s for the new window, so apps open one after another and each window
+# is matched to the right command.
+open() {
+    local workspace="$1"; shift
+    if ! command -v "$1" >/dev/null; then
+        notify-send -a Presets -u critical "$1 is not installed" "Skipped in preset \"$preset\"."
+        return 0
+    fi
+    local before id
+    before=$(window_ids)
+    setsid -f "$@" >/dev/null 2>&1
+    for _ in $(seq 100); do
+        sleep 0.2
+        id=$(comm -13 <(echo "$before") <(window_ids) | head -1)
+        [ -n "$id" ] && break
+    done
+    if [ -z "$id" ]; then
+        notify-send -a Presets "No window from $1" "It may still be starting."
+        return 0
+    fi
+    if [ "$workspace" != - ]; then
+        niri msg action move-window-to-workspace --window-id "$id" --focus false "$workspace"
+    fi
+}
+
+term() {
+    local workspace="$1"; shift
+    if [ $# -gt 0 ] && ! command -v "$1" >/dev/null; then
+        notify-send -a Presets -u critical "$1 is not installed" "Skipped in preset \"$preset\"."
+        return 0
+    fi
+    if [ $# -gt 0 ]; then
+        open "$workspace" alacritty --title "$1" -e "$@"
+    else
+        open "$workspace" alacritty
+    fi
+}
+
+tmux() {
+    open "$1" alacritty --title "tmux: $2" -e tmux new-session -A -s "$2"
+}
+
+# Profiles are matched by the name shown in Brave ("Personal", "Work").
+# A name with no matching profile becomes the folder of a new profile,
+# which Brave creates on first use (rename it in Brave's profile menu).
+brave() {
+    local workspace="$1" profile="$2"; shift 2
+    local folder
+    folder=$(jq -r --arg n "$profile" \
+        '.profile.info_cache | to_entries[] | select(.value.name == $n) | .key' \
+        "$brave_state" 2>/dev/null | head -1)
+    open "$workspace" brave-browser --profile-directory="${folder:-$profile}" --new-window "$@"
+}
+
+focus_target=""
+focus() {
+    focus_target="$1"
+}
+
+list() {
+    for f in "$dir"/*.preset; do
+        [ -e "$f" ] && basename "$f" .preset
+    done
+}
+
+pick() {
+    local presets
+    presets=$(list)
+    [ -n "$presets" ] || { notify-send -a Presets "No presets in $dir"; exit 0; }
+    wofi --dmenu -p "Open preset" -c "$HOME/.config/wofi/menu-config" \
+        --cache-file=/dev/null <<< "$presets" || true
+}
+
+case "${1:-}" in
+    --login)
+        # Give the bar, tray and notification daemon a moment to start.
+        sleep 2
+        mode=$(cat "$dir/autostart" 2>/dev/null || echo ask)
+        case "$mode" in
+            none | "") exit 0 ;;
+            ask) preset=$(pick) ;;
+            *) preset="$mode" ;;
+        esac
+        ;;
+    "") preset=$(pick) ;;
+    *) preset="$1" ;;
+esac
+[ -n "${preset:-}" ] || exit 0
+
+file="$dir/$preset.preset"
+if [ ! -f "$file" ]; then
+    notify-send -a Presets -u critical "No preset \"$preset\"" "Expected $file"
+    exit 1
+fi
+
+notify-send -a Presets -e -t 2000 "󰐱  Opening $preset…"
+# shellcheck source=/dev/null
+source "$file"
+[ -n "$focus_target" ] && niri msg action focus-workspace "$focus_target"
+exit 0

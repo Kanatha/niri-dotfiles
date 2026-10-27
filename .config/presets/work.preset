@@ -1,0 +1,9 @@
+# Work: mail (aerc), a blank tmux session named "work" and the Work
+# browser profile with its usual tabs. Helpers are documented in
+# ~/.local/bin/preset; edit the URLs to taste.
+tmux  code "work"
+open  chat alacritty --class scratch-mail -e tmux new-session -A -s scratch-mail aerc
+brave web  "Work" \
+    https://github.com \
+    https://calendar.google.com
+focus code

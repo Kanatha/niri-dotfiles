@@ -1,0 +1,8 @@
+Session presets, opened by ~/.local/bin/preset.
+
+  Mod+Shift+W        pick a preset
+  preset <name>      open one from a terminal
+
+<name>.preset   one app per line (see the helpers in ~/.local/bin/preset)
+autostart       what happens at login: "ask" (show the picker),
+                a preset name (open it), or "none"

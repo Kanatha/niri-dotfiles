@@ -292,6 +292,9 @@ spawn-at-startup "python3" "/home/luka/.config/mako/notif-history-logger.py"
 spawn-sh-at-startup "~/.local/bin/nightlight start"
 // Low battery / charger / CPU temperature notifications.
 spawn-sh-at-startup "~/.local/bin/battery-watch"
+// Session presets (work / home): asks which to open, per
+// ~/.config/presets/autostart ("ask", a preset name, or "none").
+spawn-sh-at-startup "~/.local/bin/preset --login"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -398,7 +401,8 @@ window-rule {
 }
 
 // Scratchpads toggled by ~/.local/bin/scratch-term (Mod+T terminal,
-// Mod+A calculator, Mod+Shift+N notes, Mod+Shift+T btop): float above
+// Mod+A calculator, Mod+Shift+N notes, Mod+Shift+T btop, Mod+Shift+M
+// mail): float above
 // the tiled windows, centered, and take focus on open.
 window-rule {
     match app-id=r#"^scratch-"#
@@ -406,6 +410,11 @@ window-rule {
     open-focused true
     default-column-width { proportion 0.6; }
     default-window-height { proportion 0.6; }
+}
+window-rule {
+    match app-id=r#"^scratch-mail$"#
+    default-column-width { proportion 0.8; }
+    default-window-height { proportion 0.85; }
 }
 window-rule {
     match app-id=r#"^scratch-calc$"#
@@ -513,6 +522,7 @@ binds {
     Mod+A repeat=false hotkey-overlay-title="Toggle Calculator" { spawn-sh "~/.local/bin/scratch-term calc qalc"; }
     Mod+Shift+N repeat=false hotkey-overlay-title="Toggle Scratch Note" { spawn-sh "mkdir -p ~/notes && ~/.local/bin/scratch-term notes nvim ~/notes/scratch.md"; }
     Mod+Shift+T repeat=false hotkey-overlay-title="Toggle System Monitor" { spawn-sh "~/.local/bin/scratch-term top btop"; }
+    Mod+Shift+M repeat=false hotkey-overlay-title="Toggle Mail" { spawn-sh "~/.local/bin/scratch-term mail aerc"; }
     Mod+D hotkey-overlay-title="Run an Application: wofi" { spawn "wofi" "--show" "drun"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -772,6 +782,9 @@ binds {
 
     // SSH into a host from ~/.ssh/config / known_hosts.
     Mod+S hotkey-overlay-title="SSH" { spawn-sh "~/.config/wofi/scripts/ssh-picker.sh"; }
+
+    // Open a session preset (work / home) from ~/.config/presets.
+    Mod+Shift+W hotkey-overlay-title="Open Preset" { spawn-sh "~/.local/bin/preset"; }
 
     // Open a project: tmux session with nvim, a shell and lazygit.
     Mod+Shift+P hotkey-overlay-title="Open Project" { spawn-sh "~/.config/wofi/scripts/project-picker.sh"; }

@@ -58,6 +58,11 @@ tooltip label {
     font-weight: bold;
 }
 
+/* Empty named workspaces: shown, but dimmed. */
+#workspaces button.empty:not(.active) {
+    color: @surface;
+}
+
 #workspaces button.urgent {
     background-color: @urgent;
     color: @fg;
@@ -69,9 +74,9 @@ tooltip label {
 }
 
 /* niri always keeps one trailing empty workspace to scroll into —
-   collapse it (and any other empty ones) so only occupied
-   workspaces show up in the bar. */
-#workspaces button.empty {
+   collapse it unless it's focused. Empty named workspaces (web, code,
+   chat) come first, so they stay visible from login. */
+#workspaces button.empty:last-child:not(.focused) {
     min-width: 0;
     min-height: 0;
     padding: 0;

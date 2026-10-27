@@ -1,0 +1,6 @@
+# Home: Discord, Brave on the Personal profile and a terminal.
+# Helpers are documented in ~/.local/bin/preset.
+open  chat discord
+brave web  "Personal"
+term  code
+focus web
